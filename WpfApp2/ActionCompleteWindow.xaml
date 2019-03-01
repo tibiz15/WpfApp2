@@ -1,0 +1,21 @@
+﻿<Window x:Class="WpfApp2.ActionCompleteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="Person data" MinHeight="330" Height="330" MinWidth="300" SizeToContent="Width" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Margin="20,15">
+            <Label Margin="10,3" Content="{Binding PersonName}" />
+            <Label Margin="10,3" Content="{Binding PersonSurName}" />
+            <Label Margin="10,3" Content="{Binding PersonBirthDate}" />
+            <Label Margin="10,3" Content="{Binding PersonEmail}" />
+            <Label Margin="10,3" Content="{Binding PersonZodiac}" />
+            <Label Margin="10,3" Content="{Binding PersonChineseZodiac}" />
+            <Label Margin="10,3" Content="{Binding PersonAdult}" />
+            <Label Margin="10,3" Content="{Binding PersonBirthDayToday}" />
+        </StackPanel>
+    </Grid>
+</Window>
