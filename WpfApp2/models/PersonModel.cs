@@ -20,7 +20,7 @@ namespace WpfApp2
 
         private Person(string name,string surname)
         {
-            if (isValidName(name))
+            if (IsValidName(name))
             {
                 Name = name;
             }
@@ -29,7 +29,7 @@ namespace WpfApp2
                 throw new ArgumentException("Invalid name!");
             }
 
-            if (isValidName(surname))
+            if (IsValidName(surname))
             {
                 Surname = surname;
             }
@@ -42,7 +42,7 @@ namespace WpfApp2
 
         public Person(string name,string surname,string email) : this(name, surname)
         {
-            if (isValidEmail(email))
+            if (IsValidEmail(email))
             {
                 Email = email;
             }
@@ -54,11 +54,11 @@ namespace WpfApp2
 
         public Person(string name, string surname, DateTime birthDate) : this(name, surname)
         {
-            if (isDeadPersonBirthDate(birthDate))
+            if (IsDeadPersonBirthDate(birthDate))
             {
                 throw new DeadPersonBirthDateException(birthDate);
             }
-            else if (isFutureBirthDate(birthDate))
+            else if (IsFutureBirthDate(birthDate))
             {
                 throw new FutureBirthDateException(birthDate);
             }
@@ -70,11 +70,11 @@ namespace WpfApp2
 
         public Person(string name, string surname, DateTime birthDate,string email) : this(name,surname,email)
         {
-            if (isDeadPersonBirthDate(birthDate))
+            if (IsDeadPersonBirthDate(birthDate))
             {
                 throw new DeadPersonBirthDateException(birthDate);
             }
-            else if (isFutureBirthDate(birthDate))
+            else if (IsFutureBirthDate(birthDate))
             {
                 throw new FutureBirthDateException(birthDate);
             }
@@ -189,7 +189,7 @@ namespace WpfApp2
 
         //applies to name and surname
         //no numbers and punctuation signs except , . ' -
-        private bool isValidName(String name)
+        private bool IsValidName(String name)
         {
             name = name.Trim();
 
@@ -217,7 +217,7 @@ namespace WpfApp2
             return true;
         }
    
-        private bool isValidEmail(String email)
+        private bool IsValidEmail(String email)
         {
             if (String.IsNullOrEmpty(email) || String.IsNullOrWhiteSpace(email)) return false;
             if (email.Count('@') != 1) return false; //must be 1
@@ -240,7 +240,7 @@ namespace WpfApp2
             return true;
         }
 
-        private bool isFutureBirthDate(DateTime birthDate)
+        private bool IsFutureBirthDate(DateTime birthDate)
         {
             int result = DateTime.Compare(DateTime.Today, birthDate);
             if(result < 0)
@@ -250,7 +250,7 @@ namespace WpfApp2
             return false;
         }
 
-        private bool isDeadPersonBirthDate(DateTime birthDate)
+        private bool IsDeadPersonBirthDate(DateTime birthDate)
         {
             int result = DateTime.Compare(DateTime.Today, birthDate);
             if(DateTime.Today.Year - birthDate.Year > 135)
