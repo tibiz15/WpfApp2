@@ -15,7 +15,7 @@
             <Label>Surname:</Label>
             <local:ColorInputText Margin="10,3" Text="{Binding SurnameText}" IsValid="{Binding ValidSurName,Mode=TwoWay}"/>
             <Label>Email:</Label>
-            <local:ColorInputEmail Margin="10,3" Text="{Binding EmailText}" IsValid="{Binding ValidEmail,Mode=TwoWay}"/>
+            <local:ColorInputText Margin="10,3" Text="{Binding EmailText}" IsValid="{Binding ValidEmail,Mode=TwoWay}"/>
 
             <Label>Birth date:</Label>
             <local:ColorDatePicker Margin="40,3" SelectedDate="{Binding BirthDate}" IsValidDate="{Binding ValidBirth,Mode=TwoWay}"/>

@@ -1,5 +1,6 @@
 ﻿using System;
-
+using WpfApp2.exceptions;
+using WpfApp2.tools;
 
 namespace WpfApp2
 {
@@ -12,31 +13,76 @@ namespace WpfApp2
         private string _email;
         private DateTime _birthDate;
 
-        private Person(string name,string surname)
-        {
-            Name = name;
-            Surname = surname;
-        }
-
-        public Person(string name,string surname,string email) : this(name, surname)
-        {
-            Email = email;
-        }
-
-        public Person(string name, string surname, DateTime birthDate) : this(name, surname)
-        {
-            BirthDate = birthDate;
-        }
-
-        public Person(string name, string surname, DateTime birthDate,string email) : this(name,surname,email)
-        {
-            BirthDate = birthDate;
-        }
-
         public string Name { get => _name; set => _name = value; }
         public string Surname { get => _surname; set => _surname = value; }
         public string Email { get => _email; set => _email = value; }
         public DateTime BirthDate { get => _birthDate; set => _birthDate = value; }
+
+        private Person(string name,string surname)
+        {
+            if (isValidName(name))
+            {
+                Name = name;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid name!");
+            }
+
+            if (isValidName(surname))
+            {
+                Surname = surname;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid surname!");
+            }
+            
+        }
+
+        public Person(string name,string surname,string email) : this(name, surname)
+        {
+            if (isValidEmail(email))
+            {
+                Email = email;
+            }
+            else
+            {
+                throw new InvalidEmailException(email);
+            }
+        }
+
+        public Person(string name, string surname, DateTime birthDate) : this(name, surname)
+        {
+            if (isDeadPersonBirthDate(birthDate))
+            {
+                throw new DeadPersonBirthDateException(birthDate);
+            }
+            else if (isFutureBirthDate(birthDate))
+            {
+                throw new FutureBirthDateException(birthDate);
+            }
+            else
+            {
+                BirthDate = birthDate;
+            }
+        }
+
+        public Person(string name, string surname, DateTime birthDate,string email) : this(name,surname,email)
+        {
+            if (isDeadPersonBirthDate(birthDate))
+            {
+                throw new DeadPersonBirthDateException(birthDate);
+            }
+            else if (isFutureBirthDate(birthDate))
+            {
+                throw new FutureBirthDateException(birthDate);
+            }
+            else
+            {
+                BirthDate = birthDate;
+            }
+        }
 
         public bool IsAdult
         {
@@ -139,5 +185,76 @@ namespace WpfApp2
             }
         }
 
+        public string Name1 { get => _name; set => _name = value; }
+
+        //applies to name and surname
+        //no numbers and punctuation signs except , . ' -
+        private bool isValidName(String name)
+        {
+            name = name.Trim();
+
+            if (String.IsNullOrEmpty(name) || String.IsNullOrWhiteSpace(name)) return false;
+
+            if (name[0] == '\'' || name[0] == ',' || name[0] == '.' || name[0] == '-') return false;
+            if (name[name.Length - 1] == '\'' || name[name.Length - 1] == ',' || name[name.Length - 1] == '.' || name[name.Length - 1] == '-') return false;
+
+            bool allPunct = true;
+
+
+
+            foreach (char c in name)
+            {
+                if (Char.IsDigit(c)) return false;
+                if (Char.IsPunctuation(c) && c != '\'' && c != ',' && c != '.' && c != '-') return false;
+                if(c != '\'' && c != ',' && c != '.' && c != '-')
+                {
+                    allPunct = false;
+                }
+            }
+
+            if (allPunct) return false;
+
+            return true;
+        }
+   
+        private bool isValidEmail(String email)
+        {
+            if (String.IsNullOrEmpty(email) || String.IsNullOrWhiteSpace(email)) return false;
+            if (email.Count('@') != 1) return false; //must be 1
+            
+            String name = email.Split('@')[0];
+            String domain = email.Split('@')[1];
+
+            if (String.IsNullOrEmpty(name) || String.IsNullOrWhiteSpace(name)) return false;
+            if (String.IsNullOrEmpty(domain) || String.IsNullOrWhiteSpace(domain)) return false;
+
+            if (name[0] == '.' || name[0] == '@' || name[0] == ',') return false;
+            if (name[name.Length - 1] == '.' || name[name.Length - 1] == ',' || name[name.Length - 1] == '@') return false;
+
+            if (!domain.Contains(".")) return false;
+            if (domain.Contains(",")) return false;
+
+            return true;
+        }
+
+        private bool isFutureBirthDate(DateTime birthDate)
+        {
+            int result = DateTime.Compare(DateTime.Today, birthDate);
+            if(result < 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool isDeadPersonBirthDate(DateTime birthDate)
+        {
+            int result = DateTime.Compare(DateTime.Today, birthDate);
+            if(DateTime.Today.Year - birthDate.Year > 135)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

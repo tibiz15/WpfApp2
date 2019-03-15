@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace WpfApp2
@@ -10,6 +6,7 @@ namespace WpfApp2
     class RelayCommand : ICommand
     {
         private Action<object> _action;
+        public event EventHandler CanExecuteChanged;
 
         public RelayCommand(Action<object> action)
         {
@@ -33,6 +30,6 @@ namespace WpfApp2
             }
         }
 
-        public event EventHandler CanExecuteChanged;
+        
     }
 }
