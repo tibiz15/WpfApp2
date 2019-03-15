@@ -231,6 +231,9 @@ namespace WpfApp2
             if (name[0] == '.' || name[0] == '@' || name[0] == ',') return false;
             if (name[name.Length - 1] == '.' || name[name.Length - 1] == ',' || name[name.Length - 1] == '@') return false;
 
+            if (domain[0] == '.' || domain[0] == '@' || domain[0] == ',') return false;
+            if (domain[domain.Length - 1] == '.' || domain[domain.Length - 1] == ',' || domain[domain.Length - 1] == '@') return false;
+
             if (!domain.Contains(".")) return false;
             if (domain.Contains(",")) return false;
 
